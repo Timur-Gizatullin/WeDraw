@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/Dockerfile
+    restart: on-failure
+    depends_on:
+      - db
+      - redis
+      - minio
+    environment:
+      REDIS_DSN: redis://redis:6379/
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: we_draw
+      POSTGRES_PASSWORD: we_draw
+      POSTGRES_DB: we_draw
+      S3_DSN: http://minio:9000/
+      S3_ACCESS_KEY_ID: we_draw
+      S3_SECRET_ACCESS_KEY: we_draw
+      S3_REGION_NAME: eu-central-1
+      S3_BUCKET_NAME: we_draw
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  db:
+    image: postgres:15.2
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=we_draw
+      - POSTGRES_PASSWORD=we_draw
+      - POSTGRES_DB=we_draw
+
+  redis:
+    image: redis/redis-stack:7.2.0-RC1
+    restart: on-failure
+
+  minio:
+    image: bitnami/minio:2023.4.20
+    restart: on-failure
+    environment:
+      - MINIO_ROOT_USER=we_draw
+      - MINIO_ROOT_PASSWORD=we_draw
+      - MINIO_DEFAULT_BUCKETS=we_draw
