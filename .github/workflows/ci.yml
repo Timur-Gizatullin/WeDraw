@@ -1,0 +1,27 @@
+name: Lint and test code
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build containers
+        run: docker compose -f docker-compose.ci.yml -p we_draw build --build-arg DEV_DEPS=True
+
+      - name: Up containers
+        run: docker compose -f docker-compose.ci.yml -p we_draw up -d --remove-orphans
+
+      - name: Lint
+        run: docker exec -i we_draw-api-1 make -C src lint
+
+      - name: Tests
+        run: docker exec -i we_draw-api-1 make -C src test
+
+      - name: Down containers
+        run: docker compose -f docker-compose.ci.yml -p we_draw down -v
