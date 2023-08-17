@@ -1,9 +1,12 @@
 name: Lint and test code
 
 on:
-  push:
+  pull-request:
     branches:
       - master
+  push:
+    branches:
+      - develop
 
 jobs:
   ci:
