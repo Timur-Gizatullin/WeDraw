@@ -33,7 +33,7 @@ __
 *user_id: int
 *created_at: datetime
 *updated_at: datetime
-replied_to_id: int <default: None>
+replied_to_message_id: int <default: None>
 text: text <default: None>
 }
 
@@ -78,12 +78,22 @@ finish_at: datetime <default: None>
 is_announce: bool <default: False>
 }
 
+entity UserChat{
+*id: int
+__
+*chat_id: int
+*user_id: int
+}
+
 Subscriber }--|| User
 Subscriber }--|| User
 
 Post }--|| User
 
 Auction }-|| User
+
+UserChat }--|| User
+UserChat }--|| Chat
 
 Message }--|| User
 Message }--|| Chat
