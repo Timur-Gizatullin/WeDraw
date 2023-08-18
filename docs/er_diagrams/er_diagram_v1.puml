@@ -1,0 +1,95 @@
+@startuml
+entity User{
+*id: int
+__
+*email: str
+*username: str
+*password: str
+*created_at: datetime
+*updated_at: datetime
+avatar: path
+is_deleted: bool <default: False>
+}
+
+entity Post{
+*id: int
+__
+description: text
+*creator_id: int
+*created_at: datetime
+*updated_at: datetime
+}
+
+entity Chat{
+*id: int
+__
+created_at: datetime
+}
+
+entity Message{
+*id: int
+__
+*chat_id: int
+*user_id: int
+*created_at: datetime
+*updated_at: datetime
+replied_to_id: int <default: None>
+text: text <default: None>
+}
+
+entity AttachmentPost{
+*id: int
+__
+*path: path
+*post_id: int
+}
+
+entity AttachmentMessage{
+*id: int
+__
+*path: path
+*message_id: int
+}
+
+entity AttachmentAuction{
+*id: int
+__
+*path: path
+*auction_id: int
+}
+
+entity Subscriber{
+*id: int
+__
+*creator_id: int
+*subscriber_id: int
+created_at: datetime
+}
+
+entity Auction{
+*id: int
+__
+*creator_id: int
+*actual_bet: decimal
+*created_at: datetime
+*updated_at: datetime
+start_at: datetime <default: None>
+finish_at: datetime <default: None>
+is_announce: bool <default: False>
+}
+
+Subscriber }--|| User
+Subscriber }--|| User
+
+Post }--|| User
+
+Auction }-|| User
+
+Message }--|| User
+Message }--|| Chat
+Message ||--|| Message
+
+AttachmentMessage }--|| Message
+AttachmentPost }--|| Post
+AttachmentAuction }--|| Auction
+@enduml
