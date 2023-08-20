@@ -85,6 +85,14 @@ __
 *user_id: int
 }
 
+entity Transaction {
+*id
+__
+*from_id: int
+*to_id: int
+*created_at: datetime
+}
+
 Subscriber }--|| User
 Subscriber }--|| User
 
