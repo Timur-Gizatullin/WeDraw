@@ -88,13 +88,17 @@ __
 entity Transaction {
 *id
 __
-*from_id: int
-*to_id: int
+*sender_id: int
+*receiver_id: int
 *created_at: datetime
+*amount: decimal
 }
 
 Subscriber }--|| User
 Subscriber }--|| User
+
+Transaction }--|| User
+Transaction }--|| User
 
 Post }--|| User
 
