@@ -1,0 +1,11 @@
+from sqlalchemy import ForeignKey, Integer
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from db.models.base import BaseModel
+from db.models.mixins import FilePathMixin, IDMixin
+
+
+class AttachmentPost(BaseModel, IDMixin, FilePathMixin):
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey("posts.id"), nullable=False)
+
+    post: Mapped["Post"] = relationship("Post", back_populates="attachments", foreign_keys="Post.id")  # type: ignore # noqa: F821
