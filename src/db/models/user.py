@@ -33,3 +33,6 @@ class User(BaseModel, IDMixin, CreatedAtMixin, UpdatedAtMixin, FilePathMixin):
     withdrawals: Mapped[list["Transaction"]] = relationship(  # type: ignore # noqa: F821
         "Transaction", back_populates="sender", foreign_keys="Transaction.sender_id"
     )
+    bets: Mapped[list["Auction"]] = relationship(  # type: ignore # noqa: F821
+        "Auction", back_populates="last_bet_user", foreign_keys="Auction.last_bet_user_id"
+    )
