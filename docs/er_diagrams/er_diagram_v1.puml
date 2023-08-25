@@ -70,7 +70,8 @@ entity Auction{
 *id: int
 __
 *creator_id: int
-*actual_bet: decimal
+actual_bet: decimal | None
+last_bet_user_id: int | None
 *created_at: datetime
 *updated_at: datetime
 start_at: datetime <default: None>
